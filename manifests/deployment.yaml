@@ -26,7 +26,7 @@ kind: Service
 metadata:
   name: tomcat-service
 spec:
-  type: NodePort   # Change the service type to NodePort
+  type: LoadBalancer   # Change the service type to NodePort
   selector:
     app: tomcat
   ports:
