@@ -32,5 +32,5 @@ spec:
   ports:
   - protocol: TCP
     port: 8080   # Port within the cluster
-    targetPort: 8080
+    targetPort: 80
     # Choose any available port in the range 30000-32000
