@@ -1,0 +1,41 @@
+name: Deploy to EKS
+
+on:
+ 
+  push:
+    branches: [ main ]
+
+env:
+  EKS_CLUSTER_NAME: fabulous-rainbow-1712135349
+  AWS_REGION: us-east-1
+
+jobs:
+  
+  build:
+    
+    name: Deployment
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Set short git commit SHA
+      id: commit
+      uses: prompt/actions-commit-hash@v2
+
+    - name: Check out code
+      uses: actions/checkout@v2
+    
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{env.AWS_REGION}}
+
+
+    - name: Update kube config
+      run: aws eks update-kubeconfig --name $EKS_CLUSTER_NAME --region $AWS_REGION
+
+    - name: Deploy to EKS
+      run: |
+        kubectl apply -f manifests/deployment.yaml
