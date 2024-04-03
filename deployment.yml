@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tomcat-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tomcat
+  template:
+    metadata:
+      labels:
+        app: tomcat
+    spec:
+      containers:
+      - name: tomcat
+        image: jyotikarki/kube8:latest
+        ports:
+        - containerPort: 8080
+
+
+---
+#servicefile
+apiVersion: v1
+kind: Service
+metadata:
+  name: tomcat-service
+spec:
+  type: NodePort   # Change the service type to NodePort
+  selector:
+    app: tomcat
+  ports:
+  - protocol: TCP
+    port: 8080   # Port within the cluster
+    targetPort: 8080
+    nodePort: 30000  # Choose any available port in the range 30000-32000
