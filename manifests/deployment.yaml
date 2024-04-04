@@ -14,7 +14,8 @@ spec:
     spec:
       containers:
       - name: tomcat
-        image: jyotikarki/kube8:latest
+        image: DOCKER_IMAGE
+        imagePullPolicy: Always
         ports:
         - containerPort: 8080
 
